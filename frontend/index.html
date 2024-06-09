@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+  <form id="messageForm">
+    <label for="message">Message:</label>
+    <input type="text" id="message" name="message" required>
+    <button type="submit">Send</button>
+  </form>
+  <ul id="messages"></ul>
+
+  <script>
+    const socket = io('http://localhost:3000'); // Adjust the URL to your server
+
+    document.getElementById('messageForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const message = document.getElementById('message').value;
+
+      const response = await fetch('http://localhost:3000/chat/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message })
+      });
+
+      if (response.ok) {
+        console.log('Message sent');
+      } else {
+        console.error('Error sending message:', response.statusText);
+      }
+    });
+
+    socket.on('message', function(payload) {
+      const messagesList = document.getElementById('messages');
+      const newMessage = document.createElement('li');
+      newMessage.textContent = payload.message;
+      messagesList.appendChild(newMessage);
+    });
+  </script>
+</body>
+</html>
