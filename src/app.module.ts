@@ -1,12 +1,13 @@
 import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { KafkaModule } from "./kafka/kafka.module";
-import { TestConsumer } from "./test.consumer";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { ChatController } from "./chat/chat.controller";
+import { ChatGateway } from "./chat/chat.gateway";
+import { ChatService } from "./chat/chat.service";
+import { kafkaConfig } from "./kafka/kafka.config";
 
 @Module({
-  imports: [KafkaModule],
-  controllers: [AppController],
-  providers: [AppService, TestConsumer],
+  imports: [ClientsModule.register([kafkaConfig])],
+  controllers: [ChatController],
+  providers: [ChatService, ChatGateway],
 })
 export class AppModule {}
