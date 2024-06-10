@@ -20,16 +20,11 @@ enum Gender {
 }
 
 model User {
-  userId          String  @id @default(uuid()) @db.Char(40)
-  userName        String  @unique
-  password        String
-  fullName        String
-  gender          Gender
-  birthDateString String? @default("-")
+  userId   String @id @default(uuid()) @db.Char(40)
+  userName String @unique
+  password String
+  fullName String
 
-  email   String?   @unique @db.VarChar(100) /// {"dropdown": true}
-  mobile  String    @unique
-  phone   String?
   Message Message[]
 }
 

@@ -4,15 +4,8 @@ CREATE TABLE `User` (
     `userName` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `fullName` VARCHAR(191) NOT NULL,
-    `gender` ENUM('MALE', 'FEMALE', 'OTHER') NOT NULL,
-    `birthDateString` VARCHAR(191) NULL DEFAULT '-',
-    `email` VARCHAR(100) NULL,
-    `mobile` VARCHAR(191) NOT NULL,
-    `phone` VARCHAR(191) NULL,
 
     UNIQUE INDEX `User_userName_key`(`userName`),
-    UNIQUE INDEX `User_email_key`(`email`),
-    UNIQUE INDEX `User_mobile_key`(`mobile`),
     PRIMARY KEY (`userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
