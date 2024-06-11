@@ -15,9 +15,13 @@ import { RequestResponseInterceptor } from "./logger/request-response.intercepto
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AuthModule } from "./auth/auth.module";
+import { KafkaModule } from "./kafka/kafka.module";
 
 @Module({
   imports: [
+    AuthModule,
+    KafkaModule,
     ClientsModule.register([kafkaConfig]),
     CommonModule,
     MultiTenantModule,

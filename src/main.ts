@@ -5,9 +5,11 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
 import * as bodyParser from "body-parser";
 import { IoAdapter } from "@nestjs/platform-socket.io";
+import * as cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import { PrismaClientExceptionFilter } from "./prisma/prisma-client-exception.filter";
+import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -24,8 +26,26 @@ async function bootstrap() {
     })
   );
 
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        brokers: ["localhost:9092"],
+      },
+      consumer: {
+        groupId: "nestjs-consumer-group",
+        allowAutoTopicCreation: true,
+        retry: {
+          retries: 8,
+        },
+        sessionTimeout: 30000,
+        heartbeatInterval: 3000,
+      },
+    },
+  });
+
   app.useGlobalFilters(new PrismaClientExceptionFilter());
-  // app.use(cookieParser(process.env.AUTH_COOKIE_SECRET));
+  app.use(cookieParser(process.env.AUTH_COOKIE_SECRET));
   app.use(bodyParser.json({ limit: "2mb" }));
   app.use(bodyParser.urlencoded({ limit: "2mb", extended: true }));
 
