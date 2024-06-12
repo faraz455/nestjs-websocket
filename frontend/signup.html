@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      #loginForm,
+      #messageContainer {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+
+      form input,
+      form button {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+      }
+    </style>
+  </head>
+  <body>
+    <form id="loginForm">
+      <label for="fullName">Name:</label>
+      <input type="text" id="fullName" name="fullName" required />
+      <label for="userName">username:</label>
+      <input type="text" id="userName" name="userName" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <button type="submit">Signup</button>
+    </form>
+
+    <h4 id="login">login</h4>
+
+    <script>
+      const myH5 = document.getElementById("login");
+      myH5.addEventListener("click", function () {
+        window.location.href = "index.html";
+      });
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const userName = document.getElementById("userName").value;
+          const password = document.getElementById("password").value;
+          const fullName = document.getElementById("fullName").value;
+
+          const response = await fetch("http://localhost:3000/auth/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fullName, userName, password }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            window.location.href = "index.html";
+          } else {
+            console.error("Error signing up:", response.statusText);
+          }
+        });
+    </script>
+  </body>
+</html>
