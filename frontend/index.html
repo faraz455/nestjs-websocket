@@ -5,17 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat</title>
   <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #loginForm, #messageContainer {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    form input, form button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box; /* Ensure padding and border are included in the width */
+    }
+
+    #messageContainer {
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+    }
+
+    #messages {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    #messages li {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      max-width: 70%;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+
+    .message-sender {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+    }
+
+    .message-receiver {
+      background-color: #fff;
+      align-self: flex-start;
+    }
+
+    .message-sender .name, .message-receiver .name {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .message-sender .name {
+      color: #075E54;
+    }
+
+    .message-receiver .name {
+      color: #128C7E;
+    }
+
+    #messageForm {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    #messageForm input {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    #messageForm button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #128C7E;
+      color: white;
+      cursor: pointer;
+    }
+
+    #messageForm button:hover {
+      background-color: #075E54;
+    }
+  </style>
 </head>
 <body>
-  <form id="messageForm">
-    <label for="message">Message:</label>
-    <input type="text" id="message" name="message" required>
-    <button type="submit">Send</button>
+  <!-- Login Form -->
+  <form id="loginForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Login</button>
   </form>
-  <ul id="messages"></ul>
+
+  <!-- Message Container -->
+  <div id="messageContainer" style="display: none;">
+    <ul id="messages"></ul>
+
+    <!-- Message Form -->
+    <form id="messageForm">
+      <input type="text" id="message" name="message" placeholder="Type a message" required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
 
   <script>
-    const socket = io('http://localhost:3000'); // Adjust the URL to your server
+    const socket = io('http://localhost:3000'); 
+    let authToken;
+
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userName: username, password: password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        authToken = data.auth_token;
+        document.cookie = `auth_token=${data.auth_token}; path=/;`; // Store the token in a cookie
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('messageContainer').style.display = 'flex';
+      } else {
+        console.error('Error logging in:', response.statusText);
+      }
+    });
 
     document.getElementById('messageForm').addEventListener('submit', async function(event) {
       event.preventDefault();
@@ -26,12 +171,14 @@
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`, // Include the token in the headers
         },
         body: JSON.stringify({ message })
       });
 
       if (response.ok) {
         console.log('Message sent');
+        document.getElementById('message').value = ''; // Clear the input field
       } else {
         console.error('Error sending message:', response.statusText);
       }
@@ -40,8 +187,20 @@
     socket.on('message', function(payload) {
       const messagesList = document.getElementById('messages');
       const newMessage = document.createElement('li');
-      newMessage.textContent = payload.message;
+      newMessage.className = payload.fullName === 'currentUserName' ? 'message-sender' : 'message-receiver'; // Change 'currentUserName' to the actual current user name variable
+
+      const name = document.createElement('span');
+      name.className = 'name';
+      name.textContent = payload.fullName;
+
+      const text = document.createElement('span');
+      text.className = 'text';
+      text.textContent = payload.message;
+
+      newMessage.appendChild(name);
+      newMessage.appendChild(text);
       messagesList.appendChild(newMessage);
+      messagesList.scrollTop = messagesList.scrollHeight; // Scroll to the bottom
     });
   </script>
 </body>
