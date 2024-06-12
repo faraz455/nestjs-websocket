@@ -22,7 +22,6 @@ import { LoginEntity } from "./entities";
 import { NewJwtGuard } from "./guards/new-jwt.guard";
 import { SignupDto } from "./dto/signup.dto";
 
-@UseGuards(NewJwtGuard)
 @Controller("auth")
 @ApiTags("auth")
 export class AuthController {

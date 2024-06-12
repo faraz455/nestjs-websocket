@@ -28,7 +28,10 @@ export class ChatGateway
   }
 
   @SubscribeMessage("sendMessage")
-  handleMessage(client: Socket, payload: { message: string }): void {
+  handleMessage(
+    client: Socket,
+    payload: { message: string; fullName: string }
+  ): void {
     this.server.emit("message", payload); // Broadcast message to all connected clients
   }
 }

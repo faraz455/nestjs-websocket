@@ -36,3 +36,12 @@ export function getHost(req: Request) {
   // check 127.0.0.1 to support tests
   return host.includes("127.0.0.1:") ? "localhost:3000" : host;
 }
+
+export function unixTimestamp(): number {
+  return Math.round(timeStampMilliseconds() / 1000);
+}
+
+export function datesForCreate() {
+  const timestamp: number = unixTimestamp();
+  return { dateCreated: timestamp, dateUpdated: timestamp };
+}

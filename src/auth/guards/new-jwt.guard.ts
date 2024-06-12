@@ -55,11 +55,12 @@ export class NewJwtGuard implements CanActivate {
     const req: Request = context.switchToHttp().getRequest();
     const token = this.extractJwtTokenFromRequest(req);
 
-    if (!token) {
+    const decodedToken = this.jwtService.decode(token);
+
+    if (!decodedToken) {
       throw new UnauthorizedException();
     }
 
-    const decodedToken = this.jwtService.decode(token);
     const user = this.constructUserObj(decodedToken);
 
     // @ts-ignore

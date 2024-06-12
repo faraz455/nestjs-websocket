@@ -33,8 +33,8 @@ export class AuthService {
     const user = await this.prisma.user.findFirst({
       select: {
         userId: true,
-        password: true,
         userName: true,
+        fullName: true,
       },
       where: { userName: userName, password: hashPassword },
     });
