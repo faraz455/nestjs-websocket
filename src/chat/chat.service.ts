@@ -6,16 +6,8 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { MakeTimedIDUnique, datesForCreate } from "src/common/common.helper";
 
 @Injectable()
-export class ChatService implements OnModuleInit {
-  constructor(
-    @Inject("KAFKA_SERVICE") private readonly kafkaService: ClientKafka,
-    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService
-  ) {}
-
-  async onModuleInit() {
-    this.kafkaService.subscribeToResponseOf("chat-topic");
-    await this.kafkaService.connect();
-  }
+export class ChatService {
+  constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   async sendMessage(data: {
     userId: string;
@@ -30,7 +22,5 @@ export class ChatService implements OnModuleInit {
         ...datesForCreate(),
       },
     });
-
-    await this.kafkaService.emit("chat-topic", data);
   }
 }
