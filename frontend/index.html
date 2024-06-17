@@ -35,7 +35,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         width: 100%;
-        box-sizing: border-box; /* Ensure padding and border are included in the width */
+        box-sizing: border-box;
       }
 
       #messageContainer {
@@ -113,6 +113,11 @@
       #messageForm button:hover {
         background-color: #075e54;
       }
+
+      #errorMessage {
+        color: red;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -123,12 +128,12 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required />
       <button type="submit">Login</button>
+      <div id="errorMessage"></div>
     </form>
     <h4 id="signup">Sign Up</h4>
     <!-- Message Container -->
     <div id="messageContainer" style="display: none">
       <ul id="messages"></ul>
-
       <!-- Message Form -->
       <form id="messageForm">
         <input
@@ -144,6 +149,7 @@
     <script>
       const socket = io("http://localhost:3000");
       let authToken;
+      let currentUserName;
 
       const myH5 = document.getElementById("signup");
       myH5.addEventListener("click", function () {
@@ -169,13 +175,54 @@
           if (response.ok) {
             const data = await response.json();
             authToken = data.auth_token;
+            currentUserName = username;
             document.cookie = `auth_token=${data.auth_token}; path=/;`; // Store the token in a cookie
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("messageContainer").style.display = "flex";
+            loadPreviousMessages(); // Load previous messages after login
           } else {
             console.error("Error logging in:", response.statusText);
           }
         });
+
+      async function loadPreviousMessages() {
+        const response = await fetch("http://localhost:3000/chat", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`, // Include the token in the headers
+          },
+        });
+
+        if (response.ok) {
+          const messages = await response.json();
+          const messagesList = document.getElementById("messages");
+
+          messages.records.forEach((msg) => {
+            const newMessage = document.createElement("li");
+            newMessage.className =
+              msg.fullName === currentUserName
+                ? "message-sender"
+                : "message-receiver";
+
+            const name = document.createElement("span");
+            name.className = "name";
+            name.textContent = msg.fullName;
+
+            const text = document.createElement("span");
+            text.className = "text";
+            text.textContent = msg.message;
+
+            newMessage.appendChild(name);
+            newMessage.appendChild(text);
+            messagesList.appendChild(newMessage);
+          });
+
+          messagesList.scrollTop = messagesList.scrollHeight;
+        } else {
+          console.error("Error fetching messages:", response.statusText);
+        }
+      }
 
       document
         .getElementById("messageForm")
@@ -205,7 +252,7 @@
         const messagesList = document.getElementById("messages");
         const newMessage = document.createElement("li");
         newMessage.className =
-          payload.fullName === "currentUserName"
+          payload.fullName === currentUserName
             ? "message-sender"
             : "message-receiver"; // Change 'currentUserName' to the actual current user name variable
 
@@ -220,7 +267,7 @@
         newMessage.appendChild(name);
         newMessage.appendChild(text);
         messagesList.appendChild(newMessage);
-        messagesList.scrollTop = messagesList.scrollHeight; // Scroll to the bottom
+        messagesList.scrollTop = messagesList.scrollHeight;
       });
     </script>
   </body>
