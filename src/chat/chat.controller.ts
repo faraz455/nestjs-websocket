@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from "@nestjs/common";
+import { Controller, Post, Body, UseGuards, Get } from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { ChatGateway } from "./chat.gateway";
 import { MessageDto } from "./dto/message.dto";
@@ -29,5 +29,10 @@ export class ChatController {
     await this.chatService.sendMessage(fullMessage);
     this.chatGateway.server.emit("message", fullMessage);
     return { status: "Message sent" };
+  }
+
+  @Get()
+  async getMessage() {
+    return this.chatService.getMessage();
   }
 }

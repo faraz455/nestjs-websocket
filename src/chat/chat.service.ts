@@ -23,4 +23,26 @@ export class ChatService {
       },
     });
   }
+
+  async getMessage() {
+    const recs = await this.prisma.message.findMany({
+      select: {
+        sender: {
+          select: {
+            fullName: true,
+          },
+        },
+        messageText: true,
+      },
+    });
+
+    const records = recs.map((rec) => {
+      return {
+        fullName: rec.sender.fullName,
+        message: rec.messageText,
+      };
+    });
+
+    return { records };
+  }
 }
