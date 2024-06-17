@@ -14,11 +14,9 @@
 
 ## Description
 
-This project is built on top of [Repository](https://github.com/faraz455/nestjs-prisma-mysql).
+This project is built on top of [Git Repository](https://github.com/faraz455/nestjs-prisma-mysql).
 
-[Nest](https://github.com/nestjs/nest) Framework
-
-This project demonstrates the use of WebSockets in a NestJS application to enable real-time communication. It features a single-page front-end where users can interact with each other through WebSocket connections. The primary goal of this project is to showcase the integration of NestJS WebSockets with a front-end interface, facilitating real-time messaging between users.
+Built with [Nest Framework](https://github.com/nestjs/nest) , this project demonstrates the use of **WebSockets** in a **NestJS application** to enable real-time communication. It features a single-page front-end where users can interact with each other through WebSocket connections. The primary goal of this project is to showcase the integration of NestJS WebSockets with a front-end interface, facilitating real-time messaging between users.
 
 # Table of Contents
 
@@ -33,7 +31,6 @@ This project demonstrates the use of WebSockets in a NestJS application to enabl
 - [Installation](#installation)
 
   - [Prerequistes](#prerequisites)
-
   - [Setting up environment variables](#setting-up-environment-variables)
 
     - [Basic Environment](#basic-environment)
@@ -79,24 +76,27 @@ This project is organized into two main parts: the front-end application and the
 
 #### Front-End
 
-1. **Signup Page**:
-   - **User Registration**: Users can register by providing a username, full name, and password. This information is sent to the backend to create a new user account.
-2. **Login Page**:
+- **Signup Page**:
 
-   - **User Authentication**: Users can log in using their registered username and password. Upon successful authentication, users are redirected to the chat interface.
+  - **User Registration**: Users can register by providing a username, full name, and password. This information is sent to the backend to create a new user account.
 
-3. **Chat Interface**:
-   - **Real-Time Messaging**: Once logged in, users can view all previous messages and send new messages in real-time without reloading the page. The chat interface updates instantly to display messages from all connected users.
+- **Login Page**:
+
+  - **User Authentication**: Users can log in using their registered username and password. Upon successful authentication, users are redirected to the chat interface.
+
+- **Chat Interface**:
+
+  - **Real-Time Messaging**: Once logged in, users can view all previous messages and send new messages in real-time without reloading the page. The chat interface updates instantly to display messages from all connected users.
 
 #### Back-End
 
-1. **User and Message Tables**:
+- **User and Message Tables**:
 
-   - **Database Schema**: The back-end utilizes a relational database with tables for users and messages. Each message is linked to a user, enabling the identification of message senders.
+  - **Database Schema**: The back-end utilizes a relational database with tables for users and messages. Each message is linked to a user, enabling the identification of message senders.
 
-2. **Chat Gateway Service**:
-   - **WebSocket Integration**: The Chat Gateway Service handles WebSocket connections. It initializes connections, manages user sessions, and broadcasts messages to all connected clients.
-   - **Message Handling**: When the WebSocket server emits a message, the service receives and processes it, ensuring all connected clients receive the message in real-time. This service also saves each message to the database for persistence.
+- **Chat Gateway Service**:
+  - **WebSocket Integration**: The Chat Gateway Service handles WebSocket connections. It initializes connections, manages user sessions, and broadcasts messages to all connected clients.
+  - **Message Handling**: When the WebSocket server emits a message, the service receives and processes it, ensuring all connected clients receive the message in real-time. This service also saves each message to the database for persistence.
 
 #### Workflow
 
@@ -193,13 +193,23 @@ $ yarn prisma generate
 $ yarn prisma migrate deploy
 ```
 
-### 6. Start the Server
+### 5. Start the Server
 
 Run the following command to start the server in development mode:
 
 ```bash
-$ yarn start:dev
+$ yarn start
 ```
+
+### 6. Getting Started
+
+To use the system, follow these steps:
+
+- Navigate to the `frontend` folder in the project directory.
+- Open the `index.html` file in your web browser.
+- **Signup**: Create a new user account by providing a username, full name, and password.
+- **Login**: Log in with your newly created credentials.
+- **Chat**: Once logged in, you will see the chat screen where you can send and receive messages in real-time without the need for page reloads. Messages will appear instantly as they are sent and received.
 
 ## Installation
 
@@ -340,16 +350,13 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
-```bash
-# unit tests
-$ yarn test
+To use the system, follow these steps:
 
-# e2e tests
-$ yarn test:e2e
-
-# test coverage
-$ yarn test:cov
-```
+- Navigate to the `frontend` folder in the project directory.
+- Open the `index.html` file in your web browser.
+- **Signup**: Create a new user account by providing a username, full name, and password.
+- **Login**: Log in with your newly created credentials.
+- **Chat**: Once logged in, you will see the chat screen where you can send and receive messages in real-time without the need for page reloads. Messages will appear instantly as they are sent and received.
 
 ## Prisma Migrations
 
