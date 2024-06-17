@@ -14,9 +14,11 @@
 
 ## Description
 
+This project is built on top of [Repository](https://github.com/faraz455/nestjs-prisma-mysql).
+
 [Nest](https://github.com/nestjs/nest) Framework
 
-This repository contains a sample project demonstrating the integration of Apache Kafka with a NestJS application. Kafka is a distributed streaming platform used for building real-time data pipelines and streaming applications. It is capable of handling trillions of events a day and is commonly used for messaging, log aggregation, stream processing, and more.
+This project demonstrates the use of WebSockets in a NestJS application to enable real-time communication. It features a single-page front-end where users can interact with each other through WebSocket connections. The primary goal of this project is to showcase the integration of NestJS WebSockets with a front-end interface, facilitating real-time messaging between users.
 
 # Table of Contents
 
@@ -24,6 +26,7 @@ This repository contains a sample project demonstrating the integration of Apach
 
   - [Project Overview](#project-overview)
   - [Key Features](#key-features)
+  - [Project Structure](#project-structure)
 
 - [Quick Start](#quick-start)
 
@@ -52,7 +55,7 @@ This repository contains a sample project demonstrating the integration of Apach
 
 ### Project Overview
 
-- This repository provides a foundation for building robust **NestJS** applications utilizing **Prisma** as the ORM and **MySQL** as the underlying database. It streamlines the initial setup process, offering essential features commonly required in NestJS projects. This repo demonstrates the integration of **Apache Kafka** with a NestJS application
+- This project provides a practical implementation of real-time communication using **WebSockets** in a **NestJS application**. It comprises a backend server built with NestJS and a simple single-page front-end application.
 
 ### Key Features
 
@@ -60,45 +63,53 @@ This repository contains a sample project demonstrating the integration of Apach
 
 - **Efficient Data Management**: Leverage Prisma ORM as an abstraction layer for seamless interaction with your MySQL database, reducing boilerplate code and simplifying data manipulation.
 
-- **Reusable Components**: Utilize common response entities and data transfer objects (DTOs) to ensure consistent data structures and streamline data handling across your application.
+- **NestJS WebSocket Integration**: Demonstrates how to set up and manage WebSocket connections in a NestJS server. This includes handling user connections, broadcasting messages, and managing real-time data flow.
+
+- **Real-Time Messaging**: Users can send and receive messages instantly through the WebSocket connection. Messages are displayed in a chat interface, similar to popular messaging apps.
+
+- **Single-Page Application (SPA)**: The front-end is built as a SPA using HTML, CSS, and JavaScript. This interface allows users to log in, view messages, and send new messages without needing to reload the page.
+
+- **User Authentication**: The project includes a basic user authentication system. Users must log in to access the chat functionality, ensuring that messages are tied to specific users.
 
 - **Enhanced Debugging**: Implement a custom NestJS interceptor to log request details and Prisma queries, providing valuable insights for troubleshooting and monitoring purposes.
 
-- **Interactive API Documentation**: Integrate Swagger documentation to generate clear API descriptions and facilitate user interaction with the application through an interactive interface.
+### Project Structure
 
-- **Data Validation**: Enforce data integrity and consistency using NestJS validation pipes, ensuring that incoming requests adhere to predefined data structures.
+This project is organized into two main parts: the front-end application and the back-end server. Below is an overview of each part and its components.
 
-- **Comprehensive Documentation**: Benefit from clear and detailed documentation, including comments and relevant references, to guide you through the codebase and understand its functionality.
+#### Front-End
 
-- **Kafka Integration**: Implement a message workflow using Kafka, allowing different parts of your application and different tenants to communicate efficiently through a robust and scalable messaging system.
+1. **Signup Page**:
+   - **User Registration**: Users can register by providing a username, full name, and password. This information is sent to the backend to create a new user account.
+2. **Login Page**:
 
-## Project Structure
+   - **User Authentication**: Users can log in using their registered username and password. Upon successful authentication, users are redirected to the chat interface.
 
-TODO:
+3. **Chat Interface**:
+   - **Real-Time Messaging**: Once logged in, users can view all previous messages and send new messages in real-time without reloading the page. The chat interface updates instantly to display messages from all connected users.
 
-<!-- // UPDATE THISSSS
-This sample project includes a Kafka module with the following services:
+#### Back-End
 
-- **Consumer Service**: Listens to Kafka topics and processes incoming messages.
-- **Producer Service**: Sends messages to Kafka topics.
-- **Test Consumer**: Automatically starts consuming messages from specific Kafka topics upon initialization. -->
+1. **User and Message Tables**:
 
-## Project Explanation
+   - **Database Schema**: The back-end utilizes a relational database with tables for users and messages. Each message is linked to a user, enabling the identification of message senders.
 
-TODO:
+2. **Chat Gateway Service**:
+   - **WebSocket Integration**: The Chat Gateway Service handles WebSocket connections. It initializes connections, manages user sessions, and broadcasts messages to all connected clients.
+   - **Message Handling**: When the WebSocket server emits a message, the service receives and processes it, ensuring all connected clients receive the message in real-time. This service also saves each message to the database for persistence.
 
-<!-- // UPDATE THISSSS
-After setting up and running this project, you can access the Swagger documentation at:
+#### Workflow
 
-```bash
-http://localhost:3000/api
-```
+1. **User Registration and Login**:
 
-This project includes an endpoint that produces a message for the "test" topic. When you use this endpoint, it sends a "hello" message, or some other text, to the "test" topic.
+   - Users register and log in via the front-end application, with authentication handled by the back-end server.
 
-The Test Service, which subscribes to the "test" topic, receives these messages and prints them in the terminal where the server is running.
+2. **Real-Time Communication**:
 
-This setup allows you to observe the full flow of producing and consuming messages in Kafka through a simple example. -->
+   - Upon successful login, users are connected to the WebSocket server. The chat interface allows users to send and receive messages instantly. Messages are broadcast to all connected clients and stored in the database for future retrieval.
+
+3. **Database Interaction**:
+   - The back-end server manages the storage and retrieval of user and message data, ensuring a seamless and persistent chat experience.
 
 ## Quick Start
 
@@ -181,59 +192,6 @@ Generate Prisma client and apply migrations:
 $ yarn prisma generate
 $ yarn prisma migrate deploy
 ```
-
-### 5. kafka Installation
-
-1. Check if Java is installed:
-
-   ```bash
-   java -version
-   ```
-
-2. If Java is not installed, install OpenJDK 11:
-
-   ```bash
-   brew install openjdk@11
-   ```
-
-   Add OpenJDK 11 to your PATH:
-
-   ```bash
-   echo 'export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"' >> ~/.zshrc
-   ```
-
-   Set the CPPFLAGS environment variable:
-
-   ```bash
-   export CPPFLAGS="-I/opt/homebrew/opt/openjdk@11/include"
-   ```
-
-   Source the updated profile:
-
-   ```bash
-   source ~/.zshrc  # or source ~/.bash_profile
-   ```
-
-3. Install Kafka:
-
-   ```bash
-   brew install kafka
-   ```
-
-4. Start Zookeeper:
-
-   ```bash
-   zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
-   ```
-
-5. Start Kafka server:
-   ```bash
-   kafka-server-start /opt/homebrew/etc/kafka/server.properties
-   ```
-
-These steps will set up Kafka and Java, enabling you to start this project.
-
-This command will handle the installation of all necessary dependencies for the project.
 
 ### 6. Start the Server
 
