@@ -26,6 +26,8 @@ Built with [Nest Framework](https://github.com/nestjs/nest) , this project demon
   - [Key Features](#key-features)
   - [Project Structure](#project-structure)
 
+- [Demo Video](#demo-video)
+
 - [Quick Start](#quick-start)
 
 - [Installation](#installation)
@@ -85,6 +87,16 @@ This project is organized into two main parts: the front-end application and the
 - Upon successful login, users are connected to the **WebSocket server**. The chat interface allows users to send and receive messages instantly. Messages are broadcast to all connected clients and stored in the database for future retrieval.
 
 - It manages the **storage and retrieval** of user and message data, ensuring a seamless and persistent chat experience.
+
+## Demo Video
+
+You can watch the demo video [here](https://drive.google.com/file/d/1BMc1U8BYrm2ExQCLMDMwf2RkZz2DWoCS/preview).
+
+Or view it directly below:
+
+<div align="center">
+  <iframe src="https://drive.google.com/file/d/1BMc1U8BYrm2ExQCLMDMwf2RkZz2DWoCS/preview" width="640" height="480" allow="autoplay; fullscreen"></iframe>
+</div>
 
 ## Quick Start
 
