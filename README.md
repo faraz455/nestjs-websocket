@@ -70,40 +70,21 @@ This project is organized into two main parts: the front-end application and the
 
 #### Front-End
 
-- **Signup Page**:
-
-  - **User Registration**: Users can register by providing a username, full name, and password. This information is sent to the backend to create a new user account.
-
-- **Login Page**:
-
-  - **User Authentication**: Users can log in using their registered username and password. Upon successful authentication, users are redirected to the chat interface.
-
-- **Chat Interface**:
-
-  - **Real-Time Messaging**: Once logged in, users can view all previous messages and send new messages in real-time without reloading the page. The chat interface updates instantly to display messages from all connected users.
+- **User Registration**: Users can register by providing a username, full name, and password. Users can log in using their registered username and password. Upon successful authentication, users are redirected to the chat interface.
+- **Real-Time Messaging**: Once logged in, users can view all previous messages and send new messages in real-time without reloading the page. The chat interface updates instantly to display messages from all connected users.
 
 #### Back-End
 
-- **User and Message Tables**:
-
-  - **Database Schema**: The back-end utilizes a relational database with tables for users and messages. Each message is linked to a user, enabling the identification of message senders.
-
-- **Chat Gateway Service**:
-  - **WebSocket Integration**: The Chat Gateway Service handles WebSocket connections. It initializes connections, manages user sessions, and broadcasts messages to all connected clients.
-  - **Message Handling**: When the WebSocket server emits a message, the service receives and processes it, ensuring all connected clients receive the message in real-time. This service also saves each message to the database for persistence.
+- **Database Schema**: The back-end utilizes a relational database with tables for users and messages. Each message is linked to a user, enabling the identification of message senders.
+- **WebSocket Integration**: The Chat Gateway Service handles WebSocket connections. It initializes connections, manages user sessions, and When the WebSocket server emits a message, the service ensures all connected clients receive the message in real-time.
 
 #### Workflow
 
-1. **User Registration and Login**:
+- Users **register and log in** via the front-end application, with authentication handled by the back-end server.
 
-   - Users register and log in via the front-end application, with authentication handled by the back-end server.
+- Upon successful login, users are connected to the **WebSocket server**. The chat interface allows users to send and receive messages instantly. Messages are broadcast to all connected clients and stored in the database for future retrieval.
 
-2. **Real-Time Communication**:
-
-   - Upon successful login, users are connected to the WebSocket server. The chat interface allows users to send and receive messages instantly. Messages are broadcast to all connected clients and stored in the database for future retrieval.
-
-3. **Database Interaction**:
-   - The back-end server manages the storage and retrieval of user and message data, ensuring a seamless and persistent chat experience.
+- It manages the **storage and retrieval** of user and message data, ensuring a seamless and persistent chat experience.
 
 ## Quick Start
 
