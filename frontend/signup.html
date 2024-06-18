@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
+    <title>CHAT SYSTEM</title>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <style>
       body {
@@ -37,6 +37,20 @@
         width: 100%;
         box-sizing: border-box; /* Ensure padding and border are included in the width */
       }
+
+      button[type="submit"] {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
     </style>
   </head>
   <body>
@@ -48,9 +62,10 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required />
       <button type="submit">Signup</button>
+      <button id="login" type="button">Login</button>
     </form>
 
-    <h4 id="login">login</h4>
+    <!-- <h4 id="login">login</h4> -->
 
     <script>
       const myH5 = document.getElementById("login");

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat</title>
+    <title>CHAT SYSTEM</title>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <style>
       body {
@@ -118,6 +118,20 @@
         color: red;
         margin-top: 10px;
       }
+
+      button[type="submit"] {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
     </style>
   </head>
   <body>
@@ -129,8 +143,8 @@
       <input type="password" id="password" name="password" required />
       <button type="submit">Login</button>
       <div id="errorMessage"></div>
+      <button id="signup" type="button">Sign Up</button>
     </form>
-    <h4 id="signup">Sign Up</h4>
     <!-- Message Container -->
     <div id="messageContainer" style="display: none">
       <ul id="messages"></ul>
