@@ -92,12 +92,6 @@ This project is organized into two main parts: the front-end application and the
 
 You can watch the demo video [here](https://drive.google.com/file/d/1BMc1U8BYrm2ExQCLMDMwf2RkZz2DWoCS/preview).
 
-Or view it directly below:
-
-<div align="center">
-  <iframe src="https://drive.google.com/file/d/1BMc1U8BYrm2ExQCLMDMwf2RkZz2DWoCS/preview" width="640" height="480" allow="autoplay; fullscreen"></iframe>
-</div>
-
 ## Quick Start
 
 ### 1. MySQL 8 Docker Setup
