@@ -1,6 +1,6 @@
-# Contributing to nestjs-prisma-mysql
+# Contributing to nestjs-websocket
 
-We appreciate your interest in contributing to [Your Project Name]! This guide is here to help you understand how you can get involved and contribute your valuable skills and expertise.
+We appreciate your interest in contributing to nestjs-websocket! This guide is here to help you understand how you can get involved and contribute your valuable skills and expertise.
 
 ## Getting Started
 
@@ -27,5 +27,3 @@ Here's how you can contribute changes:
 - **Clear and concise pull request title and description:** Briefly describe the purpose of your changes and what problem they solve.
 - **Adhere to coding style:** Follow the project's existing coding style and conventions.
 - **Respond promptly to feedback:** Be responsive to any feedback or questions from the project maintainers during the review process.
-
-For details on coding conventions, please refer to the [CODING_CONVENTIONS.md](CODING_CONVENTIONS.md) file.

@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
-import { ClientKafka } from "@nestjs/microservices";
 import { Inject } from "@nestjs/common/decorators";
 import { PRISMA_SERVICE } from "src/multi-tenant/multi-tenant.module";
 import { PrismaService } from "src/prisma/prisma.service";
