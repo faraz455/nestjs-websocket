@@ -9,7 +9,6 @@ import * as cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import { PrismaClientExceptionFilter } from "./prisma/prisma-client-exception.filter";
-import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -25,24 +24,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
-
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.KAFKA,
-    options: {
-      client: {
-        brokers: ["localhost:9092"],
-      },
-      consumer: {
-        groupId: "nestjs-consumer-group",
-        allowAutoTopicCreation: true,
-        retry: {
-          retries: 8,
-        },
-        sessionTimeout: 30000,
-        heartbeatInterval: 3000,
-      },
-    },
-  });
 
   app.useGlobalFilters(new PrismaClientExceptionFilter());
   app.use(cookieParser(process.env.AUTH_COOKIE_SECRET));

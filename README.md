@@ -208,8 +208,6 @@ To install all the required dependencies, run the following command in your term
 $ yarn install
 ```
 
-To get started with this project, you need to have Java and Kafka installed on your machine. Below are the steps to set up the environment on macOS using Homebrew.
-
 ## Setting up environment variables
 
 ### Basic Environment
